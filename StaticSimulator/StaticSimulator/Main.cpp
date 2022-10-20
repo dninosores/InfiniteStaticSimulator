@@ -145,10 +145,8 @@ int main()
         int scaleLocation = glGetUniformLocation(shaderProgram, "scale");
         int offsetLocation = glGetUniformLocation(shaderProgram, "offset");
         glUseProgram(shaderProgram);
-        glUniform1f(scaleLocation, 110);
+        glUniform1f(scaleLocation, 140);
         glUniform2f(offsetLocation, offset_dis(gen), offset_dis(gen));
-
-
 
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
