@@ -4,6 +4,9 @@
 #include <fstream>
 #include <string>
 #include <random>
+#include <irrklang/irrKlang.h>
+
+using namespace irrklang;
 
 int size = 1;
 
@@ -25,6 +28,9 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 int main()
 {
+    ISoundEngine* SoundEngine = createIrrKlangDevice();
+    SoundEngine->play2D("NOISE.mp3", true);
+
     std::cout << "STARTING" << std::endl;
     std::ifstream in("static_shader.glsl");
     std::string contents((std::istreambuf_iterator<char>(in)),

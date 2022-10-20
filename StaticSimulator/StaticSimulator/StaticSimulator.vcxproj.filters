@@ -26,5 +26,19 @@
     <None Include="static_shader.glsl">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="..\..\..\..\Users\Downloads\irrKlang-64bit-1.6.0\irrKlang-64bit-1.6.0\bin\winx64-visualStudio\ikpFlac.dll">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\..\..\..\Users\Downloads\irrKlang-64bit-1.6.0\irrKlang-64bit-1.6.0\bin\winx64-visualStudio\ikpMP3.dll">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\..\..\..\Users\Downloads\irrKlang-64bit-1.6.0\irrKlang-64bit-1.6.0\bin\winx64-visualStudio\irrKlang.dll">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\..\..\..\Users\Desktop\NOISE.mp3">
+      <Filter>Source Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>
