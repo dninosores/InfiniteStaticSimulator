@@ -3,6 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <random>
+
+int size = 1;
 
 const char* vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
@@ -35,7 +38,7 @@ int main()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "STATIC", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(1920, 1080, "STATIC", glfwGetPrimaryMonitor(), NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -50,7 +53,7 @@ int main()
         return -1;
     }
 
-    glViewport(0, 0, 800, 600);
+    //glViewport(0, 0, 1920, 1080);
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
@@ -125,10 +128,27 @@ int main()
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
+
+
+    std::random_device rd;  // Will be used to obtain a seed for the random number engine
+    std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
+    std::uniform_real_distribution<> offset_dis(-2*size, 2*size);
+    std::uniform_real_distribution<> size_dis(500, 20000);
+
+
     while (!glfwWindowShouldClose(window))
     {
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+
+        int scaleLocation = glGetUniformLocation(shaderProgram, "scale");
+        int offsetLocation = glGetUniformLocation(shaderProgram, "offset");
+        glUseProgram(shaderProgram);
+        glUniform1f(scaleLocation, 110);
+        glUniform2f(offsetLocation, offset_dis(gen), offset_dis(gen));
+
+
 
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
@@ -136,6 +156,15 @@ int main()
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+            glDeleteProgram(shaderProgram);
+            glfwDestroyWindow(window);
+            glfwTerminate();
+            exit(EXIT_SUCCESS);
+        }
+
+        size += 1;
     }
     glfwTerminate();
     return 0;

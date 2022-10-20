@@ -1,10 +1,17 @@
 #version 330 core
 out vec4 FragColor;
 
+in vec4 posn;
+
+uniform float scale;
+uniform vec2 offset;
+
 
 // Simplex 2D noise
 //
 vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+
+
 
 float snoise(vec2 v){
   const vec4 C = vec4(0.211324865405187, 0.366025403784439,
@@ -33,8 +40,25 @@ float snoise(vec2 v){
   return 130.0 * dot(m, g);
 }
 
+// Generic noise
+float rand(vec2 n) { 
+	return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
+}
+
+float noise(vec2 p){
+	vec2 ip = floor(p);
+	vec2 u = fract(p);
+	u = u*u*(3.0-2.0*u);
+	
+	float res = mix(
+		mix(rand(ip),rand(ip+vec2(1.0,0.0)),u.x),
+		mix(rand(ip+vec2(0.0,1.0)),rand(ip+vec2(1.0,1.0)),u.x),u.y);
+	return res*res;
+}
+
 
 void main()
 {
-    FragColor = vec4(1.0f, 0f, 0.2f, 1.0f);
+    float noise = snoise(vec2((posn.x + offset.x) * scale, (posn.y + offset.y) * scale));
+    FragColor = vec4(noise, noise, noise, 1.0f);
 } 
